@@ -1,24 +1,95 @@
-import { Link } from "react-router-dom";
+import { Container, Card, Form, Button } from "react-bootstrap";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      alert(response.data.message);
+
+     localStorage.setItem(
+  "username",
+  response.data.user.username
+);
+
+      navigate("/create-post");
+
+    } catch (error) {
+      console.log(error);
+
+      alert(
+        error.response?.data?.message ||
+        "Login Failed ❌"
+      );
+    }
+  };
+
   return (
-    <div>
-      <h1>Login Page</h1>
+    <Container
+      className="d-flex justify-content-center align-items-center"
+      style={{ minHeight: "100vh" }}
+    >
+      <Card
+        className="shadow p-4"
+        style={{
+          width: "400px",
+          borderRadius: "15px",
+        }}
+      >
+        <h2 className="text-center mb-4">
+          Welcome Back 👋
+        </h2>
 
-      <input type="email" placeholder="Email" />
-      <br />
-      <br />
+        <Form.Control
+          className="mb-3"
+          type="email"
+          placeholder="Enter Email"
+          value={email}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
+        />
 
-      <input type="password" placeholder="Password" />
-      <br />
-      <br />
+        <Form.Control
+          className="mb-3"
+          type="password"
+          placeholder="Enter Password"
+          value={password}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+        />
 
-      <button>Login</button>
+        <Button
+          variant="primary"
+          className="w-100"
+          onClick={handleLogin}
+        >
+          Login
+        </Button>
 
-      <p>
-        Don't have an account? <Link to="/signup">Sign Up</Link>
-      </p>
-    </div>
+        <p className="text-center mt-3">
+          Don't have an account?{" "}
+          <Link to="/signup">
+            Sign Up
+          </Link>
+        </p>
+      </Card>
+    </Container>
   );
 }
 
