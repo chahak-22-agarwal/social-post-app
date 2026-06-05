@@ -4,8 +4,9 @@ import { Container, Form, Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 function CreatePost() {
-  const [text, setText] = useState("");
-
+ 
+const [text, setText] = useState("");
+const [image, setImage] = useState("");
   const navigate = useNavigate();
 
   const handlePost = async () => {
@@ -15,7 +16,7 @@ function CreatePost() {
         {
           username: localStorage.getItem("username"),
           text,
-          image: "",
+          image,
         }
       );
 
@@ -47,7 +48,13 @@ function CreatePost() {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-
+<Form.Control
+  className="mt-3"
+  type="text"
+  placeholder="Paste Image URL (optional)"
+  value={image}
+  onChange={(e) => setImage(e.target.value)}
+/>
         <Button
           className="mt-3"
           onClick={handlePost}

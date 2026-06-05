@@ -2,17 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Container, Card, Button, Form } from "react-bootstrap";
-<div
-  style={{
-    background: "#0d6efd",
-    color: "white",
-    padding: "15px",
-    borderRadius: "10px",
-    marginBottom: "20px",
-  }}
->
-  <h2>🌍 Social Feed</h2>
-</div>
+
 function Feed() {
   const [posts, setPosts] = useState([]);
 const navigate = useNavigate();
@@ -48,7 +38,19 @@ const navigate = useNavigate();
             <Card.Text>
               {post.text}
             </Card.Text>
-
+{post.image && (
+  <img
+    src={post.image}
+    alt="Post"
+    style={{
+      width: "100%",
+      maxHeight: "400px",
+      objectFit: "cover",
+      borderRadius: "10px",
+      marginBottom: "15px",
+    }}
+  />
+)}
             <p>❤️ Likes: {post.likes.length}</p>
 
             <Button
